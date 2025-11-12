@@ -1,25 +1,43 @@
-import { Page, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { Page } from '@playwright/test';
 import LoginPage from '../pages/LoginPage';
 import ProductPage from '../pages/ProductPage';
 import { config } from '../utils/config';
 
-export async function loginAsStandardUser(page: Page): Promise<{ loginPage: LoginPage, productPage: ProductPage }> {
-    const loginPage = new LoginPage(page);
-    const productPage = new ProductPage(page);
+export class AuthSteps {
+  private productPage: ProductPage;
 
-    await loginPage.navigateToLoginPage();
-    await loginPage.login(
-        config.username,
-        config.password
+  constructor(
+    private page: Page,
+    private loginPage: LoginPage
+  ) {
+    this.productPage = new ProductPage(page);
+  }
+
+  async loginWithValidCredentials() {
+    await this.loginPage.navigateToLoginPage();
+    await this.loginPage.login(
+      config.username,
+      config.password
     );
+    await this.verifyLoginIsSuccessful();
+  }
 
-    // Verify login was successful
-    await expect(productPage.verifyPageIsDisplayed()).resolves.toBeTruthy();
+  async loginWithInvalidCredentials(username: string, password: string) {
+    await this.loginPage.navigateToLoginPage();
+    await this.loginPage.login(username, password);
+  }
 
-    return { loginPage, productPage };
-}
+  async verifyLoginIsSuccessful() {
+    await expect(this.productPage.verifyPageIsDisplayed()).resolves.toBeTruthy();
+  }
 
-export async function logout(page: Page, productPage: ProductPage, loginPage: LoginPage): Promise<void> {
-    await productPage.logout();
-    await expect(loginPage.verifyLoginButtonIsVisible()).resolves.toBeTruthy();
+  async verifyLoginButtonIsVisible() {
+    await expect(this.loginPage.verifyLoginButtonIsVisible()).resolves.toBeTruthy();
+  }
+
+  async logout() {
+    await this.productPage.logout();
+    await this.verifyLoginButtonIsVisible();
+  }
 }
