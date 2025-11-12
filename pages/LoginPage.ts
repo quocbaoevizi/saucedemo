@@ -32,4 +32,9 @@ export default class LoginPage extends BasePage {
     async getErrorMessageText(): Promise<string> {
         return this.getText(this.errorMessage);
     }
+
+    // Verification
+    async verifyLoginButtonIsVisible(): Promise<boolean> {
+        return this.isVisible(this.loginButton);
+    }
 }
