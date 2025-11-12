@@ -1,0 +1,14 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.1"
+  },
+  "scripts": {
+    "test": "npx @dotenvx/dotenvx run --env-file=.env -- playwright test",
+    "test:headed": "npx @dotenvx/dotenvx run --env-file=.env -- playwright test --headed"
+  }
+}

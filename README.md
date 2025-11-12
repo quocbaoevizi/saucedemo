@@ -1,2 +1,1 @@
 # saucedemo
-test
