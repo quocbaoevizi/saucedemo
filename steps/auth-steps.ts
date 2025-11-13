@@ -2,10 +2,10 @@ import { expect, Page } from '@playwright/test';
 import LoginPage from '../pages/LoginPage';
 import ProductPage from '../pages/ProductPage';
 import { config } from '../utils/config';
+import { ProductSteps } from './product-steps';
 
 export class AuthSteps {
   private productPage: ProductPage;
-
   constructor(
     private page: Page,
     private loginPage: LoginPage
