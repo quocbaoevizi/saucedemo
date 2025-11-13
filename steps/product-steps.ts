@@ -9,6 +9,15 @@ export class ProductSteps {
   }
 
   // Actions
+  async navigateToCart() {
+    await this.productPage.cartLink.click();
+  }
+
+  async logout(): Promise<void> {
+    await this.productPage.menuButton.click();
+    await this.productPage.logoutLink.click();
+  }
+
   async addProductsToCart(indexes: number[]): Promise<string[]> {
     const itemNames: string[] = [];
 
@@ -19,10 +28,6 @@ export class ProductSteps {
     }
 
     return itemNames;
-  }
-
-  async navigateToCart(): Promise<void> {
-    await this.productPage.navigateToCart();
   }
 
   // Verifications
@@ -41,7 +46,7 @@ export class ProductSteps {
   }
 
   async verifyProductPageIsDisplayed(): Promise<void> {
-    const isDisplayed = await this.productPage.isPageDisplayed();
+    const isDisplayed = await this.productPage.inventoryContainer.isVisible();
     expect(isDisplayed).toBeTruthy();
   }
 }

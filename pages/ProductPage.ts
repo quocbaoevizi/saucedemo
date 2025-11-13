@@ -45,25 +45,8 @@ export default class ProductPage extends BasePage {
             .locator('button:has-text("Add to cart")');
     }
 
-    // Navigation
-    async navigateToCart() {
-        await this.cartLink.click();
-    }
-
-    // Verification
-    async isPageDisplayed(): Promise<boolean> {
-        return this.isVisible('[data-test="inventory-container"]');
-    }
-
-    // Actions
-    async logout(): Promise<void> {
-        await this.click(this.menuButton);
-        await this.click(this.logoutLink);
-    }
-
-    // Verification
-    async verifyPageIsDisplayed(): Promise<boolean> {
-        return this.isVisible('[data-test="inventory-container"]');
+    get inventoryContainer() {
+        return this.page.locator('[data-test="inventory-container"]');
     }
 
 }

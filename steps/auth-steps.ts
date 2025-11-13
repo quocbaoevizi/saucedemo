@@ -1,16 +1,15 @@
 import { expect, Page } from '@playwright/test';
 import LoginPage from '../pages/LoginPage';
-import ProductPage from '../pages/ProductPage';
 import { config } from '../utils/config';
 import { ProductSteps } from './product-steps';
 
 export class AuthSteps {
-  private productPage: ProductPage;
+  private productSteps: ProductSteps;
   constructor(
     private page: Page,
     private loginPage: LoginPage
   ) {
-    this.productPage = new ProductPage(page);
+    this.productSteps = new ProductSteps(page);
   }
 
   async loginWithValidCredentials() {
@@ -35,10 +34,7 @@ export class AuthSteps {
   }
 
   async verifyLoginIsSuccessful() {
-    await expect(this.productPage.verifyPageIsDisplayed()).resolves.toBeTruthy();
-    await expect(this.page.getByText('Swag Labs')).toBeVisible();
-    await expect(this.page.locator('[data-test="inventory-container"]')).toBeVisible();
-    await expect(this.page.getByText('Products')).toBeVisible();
+    expect(this.productSteps.verifyProductPageIsDisplayed());
   }
 
   async verifyLoginButtonIsVisible() {
@@ -46,7 +42,7 @@ export class AuthSteps {
   }
 
   async logout() {
-    await this.productPage.logout();
+    await this.productSteps.logout();
     await this.verifyLoginButtonIsVisible();
   }
 }
