@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 import BasePage from './BasePage';
 
 export default class ProductPage extends BasePage {
@@ -38,6 +38,18 @@ export default class ProductPage extends BasePage {
 
     get inventoryContainer(): Locator {
         return this.page.locator('[data-test="inventory-container"]');
+    }
+
+    getProductItemLink(index: number): Locator {
+        return this.page.locator(`[data-test="item-${index}-title-link"]`);
+    }
+
+    async clickProductItem(index: number): Promise<void> {
+        await this.getProductItemLink(index).click();
+    }
+
+    async verifyPageIsDisplayed(): Promise<void> {
+        await expect(this.inventoryContainer).toBeVisible();
     }
 
 }

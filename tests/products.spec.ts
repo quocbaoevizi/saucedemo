@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { AuthSteps } from '../steps/auth-steps';
 import LoginPage from '../pages/LoginPage';
 import { ProductSteps } from '../steps/product-steps';
@@ -9,8 +9,10 @@ test.describe('Product Page Tests', () => {
   let loginPage: LoginPage;
   let productSteps: ProductSteps;
   let cartSteps: CartSteps;
+  let page: Page;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page: testPage }) => {
+    page = testPage;
     loginPage = new LoginPage(page);
     authSteps = new AuthSteps(page, loginPage);
     productSteps = new ProductSteps(page);
@@ -19,26 +21,26 @@ test.describe('Product Page Tests', () => {
     await productSteps.verifyProductPageIsDisplayed();
   });
 
-  // test('@C04 Verify that the user can add multiple products to cart', async () => {
-  //   let itemIndexes: number[] = [1, 2];
-  //   let itemNames: string[] = [];
-  //   await test.step('Add products to cart', async () => {
-  //     itemNames = await productSteps.addProductsToCart(itemIndexes);
-  //   });
+  test('@C04 Verify that the user can add multiple products to cart', async () => {
+    let itemIndexes: number[] = [1, 2];
+    let itemNames: string[] = [];
+    await test.step('Add products to cart', async () => {
+      itemNames = await productSteps.addProductsToCart(itemIndexes);
+    });
 
-  //   await test.step('Verify cart badge shows correct count', async () => {
-  //     await productSteps.verifyCartBadgeCount(itemIndexes.length);
-  //   });
+    await test.step('Verify cart badge shows correct count', async () => {
+      await productSteps.verifyCartBadgeCount(itemIndexes.length);
+    });
 
-  //   await test.step('Navigate to cart', async () => {
-  //     await productSteps.navigateToCart();
-  //   });
+    await test.step('Navigate to cart', async () => {
+      await productSteps.navigateToCart();
+    });
 
-  //   await test.step('Verify cart contents', async () => {
-  //     await cartSteps.verifyCartItemCount(itemIndexes.length);
-  //     await cartSteps.verifyCartContainsItems(itemNames);
-  //   });
-  // });
+    await test.step('Verify cart contents', async () => {
+      await cartSteps.verifyCartItemCount(itemIndexes.length);
+      await cartSteps.verifyCartContainsItems(itemNames);
+    });
+  });
 
   test('@C05 Verify that the user can remove a product from cart', async () => {
     let itemIndexes: number[] = [1, 2];
@@ -77,5 +79,33 @@ test.describe('Product Page Tests', () => {
         throw new Error('Item name removed is null');
       }
     })
+  });
+
+  test('@C06 Verify that the user can view product details by clicking on the product item', async () => {
+    const productIndex = 4; // Index of the product to test
+    let productName: string | null = null;
+
+    await test.step('Get product details from the list', async () => {
+      productName = await productSteps.getProductItemText(productIndex);
+    });
+
+    await test.step('Click on the product to view details', async () => {
+      await productSteps.viewProductDetails(productIndex);
+      await expect(page).toHaveURL(/inventory-item\.html\?id=\d+/);
+    });
+
+    await test.step('Verify product details page elements', async () => {
+      await productSteps.productDetailSteps.verifyPageIsDisplayed();
+
+      if (productName) {
+        await productSteps.productDetailSteps.verifyProductDetails(productName);
+      }
+    });
+
+    await test.step('Navigate back to products list', async () => {
+      await productSteps.productDetailSteps.navigateBackToProducts();
+      await expect(page).toHaveURL(/inventory\.html/);
+      await productSteps.verifyProductPageIsDisplayed();
+    });
   });
 });
