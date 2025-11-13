@@ -102,7 +102,7 @@ test.describe('Checkout Page Tests', () => {
   });
 
   test('@C15 Verify user can complete checkout with all required information', {
-    tag: ['@C15', '@Checkout', '@E2E']
+    tag: ['@C15', '@Checkout']
   }, async () => {
     await test.step('Navigate to checkout step one page', async () => {
       const itemIndexes = [1];
@@ -121,6 +121,14 @@ test.describe('Checkout Page Tests', () => {
 
     await test.step('Verify checkout overview page is displayed', async () => {
       await checkoutSteps.verifyStepTwoPageIsDisplayed();
+    });
+
+    await test.step('Click finish button', async () => {
+      await checkoutSteps.clickFinishButton();
+    });
+
+    await test.step('Verify checkout complete page is displayed', async () => {
+      await checkoutSteps.verifyCheckoutComplete();
     });
   });
 });

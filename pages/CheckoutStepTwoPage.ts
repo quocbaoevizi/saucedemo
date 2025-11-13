@@ -9,4 +9,8 @@ export default class CheckoutStepTwoPage extends BasePage {
   get title() {
     return this.page.locator('[data-test="title"]');
   }
+
+  get finishButton() {
+    return this.page.locator('[data-test="finish"]');
+  }
 }
