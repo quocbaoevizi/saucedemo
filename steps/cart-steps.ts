@@ -18,6 +18,10 @@ export class CartSteps extends BasePage {
     await this.cartPage.continueShoppingButton.click();
   }
 
+  async clickCheckoutButton() {
+    await this.cartPage.checkoutButton.click();
+  }
+
   async verifyCartItemCount(expectedCount: number): Promise<void> {
     await expect(this.cartPage.productItems).toHaveCount(expectedCount);
   }
