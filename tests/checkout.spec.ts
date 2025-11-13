@@ -80,4 +80,24 @@ test.describe('Checkout Page Tests', () => {
       await checkoutSteps.verifyZipCodeRequiredError();
     });
   });
-})
+
+  test('@C14 Verify that the user can back to Your Cart page by clicking "Cancel" button', {
+    tag: ['@C14', '@Checkout']
+  }, async () => {
+    await test.step('Navigate to checkout step one page', async () => {
+      const itemIndexes = [1];
+      await productSteps.addProductsToCart(itemIndexes);
+      await productSteps.navigateToCart();
+      await cartSteps.clickCheckoutButton();
+      await checkoutSteps.verifyPageIsDisplayed();
+    });
+
+    await test.step('Click cancel button', async () => {
+      await checkoutSteps.clickCancelButton();
+    });
+
+    await test.step('Verify cart page is displayed', async () => {
+      await cartSteps.verifyCartPageIsDisplayed();
+    });
+  });
+});

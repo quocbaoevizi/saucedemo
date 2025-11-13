@@ -27,6 +27,10 @@ export default class CartPage extends BasePage {
     return this.page.getByRole('button', { name: 'Checkout' });
   }
 
+  get title() {
+    return this.page.locator('[data-test="title"]');
+  }
+
   getProductItemTitle(index: number) {
     return this.page.locator(`[data-test="item-${index}-title-link"]`);
   }

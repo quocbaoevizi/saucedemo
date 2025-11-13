@@ -42,4 +42,9 @@ export class CartSteps extends BasePage {
     const cartItems = await this.cartPage.getCartItemNames();
     expect(cartItems).not.toContain(itemName);
   }
+
+  async verifyCartPageIsDisplayed(): Promise<void> {
+    await expect(this.cartPage.title).toBeVisible();
+    await expect(this.cartPage.title).toHaveText('Your Cart');
+  }
 }
