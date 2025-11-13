@@ -9,6 +9,7 @@
   },
   "scripts": {
     "test": "npx @dotenvx/dotenvx run --env-file=.env -- playwright test",
-    "test:headed": "npx @dotenvx/dotenvx run --env-file=.env -- playwright test --headed"
+    "test:headed": "npx @dotenvx/dotenvx run --env-file=.env -- playwright test --headed",
+    "test:debug": "npx @dotenvx/dotenvx run --env-file=.env -- playwright test --headed --debug"
   }
 }

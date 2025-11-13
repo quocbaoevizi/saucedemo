@@ -2,7 +2,7 @@ import { Page, Locator } from '@playwright/test';
 
 export default abstract class BasePage {
     protected readonly page: Page;
-    
+
     constructor(page: Page) {
         this.page = page;
     }
@@ -12,6 +12,9 @@ export default abstract class BasePage {
         await this.page.goto(url);
     }
 
+    protected async goBack(): Promise<void> {
+        await this.page.goBack();
+    }
     // Element interactions
     protected async click(locator: string | Locator): Promise<void> {
         if (typeof locator === 'string') {

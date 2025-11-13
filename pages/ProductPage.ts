@@ -7,45 +7,36 @@ export default class ProductPage extends BasePage {
     }
 
     // Locators
-    get cartLink() {
+    get cartLink(): Locator {
         return this.page.locator('[data-test="shopping-cart-link"]');
     }
 
-    get cartBadge() {
+    get cartBadge(): Locator {
         return this.page.locator('[data-test="shopping-cart-badge"]');
     }
 
-    get menuButton() {
+    get menuButton(): Locator {
         return this.page.locator('button:has-text("Open Menu")');
     }
 
-    get logoutLink() {
+    get logoutLink(): Locator {
         return this.page.locator('[data-test="logout-sidebar-link"]');
     }
 
-    get productItems() {
-        return this.page.locator('[data-test="inventory-item"]');
-    }
-
-    getProductItem(index: number) {
-        return this.page.locator(`[data-test="item-${index}-title-link"]`);
-    }
-
-    getProductDescription(index: number) {
-        return this.page.locator('[data-test="inventory-item-description"]').nth(index);
-    }
-
-    getProductName(index: number) {
+    getProductItem(index: number): Locator {
         return this.page.locator('[data-test="inventory-item-name"]').nth(index);
     }
 
-    getAddToCartButton(index: number) {
-        return this.page.locator('[data-test="inventory-item-description"]')
-            .nth(index)
-            .locator('button:has-text("Add to cart")');
+    getProductItemByName(name: string): Locator {
+        return this.page.locator('[data-test="inventory-item-description"]').filter({ hasText: name });
     }
 
-    get inventoryContainer() {
+    getAddToCartButton(index: number): Locator {
+        return this.page.locator('[data-test="inventory-item-description"]')
+            .nth(index).getByRole('button', { name: 'Add to cart' });
+    }
+
+    get inventoryContainer(): Locator {
         return this.page.locator('[data-test="inventory-container"]');
     }
 

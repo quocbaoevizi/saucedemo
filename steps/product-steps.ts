@@ -1,11 +1,14 @@
 import { expect, Page } from '@playwright/test';
 import ProductPage from '../pages/ProductPage';
+import CartPage from '../pages/CartPage';
 
 export class ProductSteps {
   private productPage: ProductPage;
+  private cartPage: CartPage;
 
   constructor(page: Page) {
     this.productPage = new ProductPage(page);
+    this.cartPage = new CartPage(page);
   }
 
   // Actions
@@ -22,7 +25,7 @@ export class ProductSteps {
     const itemNames: string[] = [];
 
     for (const index of indexes) {
-      const itemName = await this.productPage.getProductName(index).textContent();
+      const itemName = await this.productPage.getProductItem(index).textContent();
       if (itemName) itemNames.push(itemName);
       await this.productPage.getAddToCartButton(index).click();
     }
@@ -31,22 +34,18 @@ export class ProductSteps {
   }
 
   // Verifications
-  async verifyCartItemCount(expectedCount: number): Promise<void> {
-    await expect(this.productPage.productItems).toHaveCount(expectedCount);
-  }
-
   async verifyCartBadgeCount(expectedCount: number): Promise<void> {
     await expect(this.productPage.cartBadge).toHaveText(expectedCount.toString());
   }
 
-  async verifyCartContainsItems(itemNames: string[]): Promise<void> {
-    for (let i = 0; i < itemNames.length; i++) {
-      await expect(this.productPage.getProductItem(i)).toHaveText(itemNames[i]);
-    }
-  }
-
   async verifyProductPageIsDisplayed(): Promise<void> {
     const isDisplayed = await this.productPage.inventoryContainer.isVisible();
+    expect(isDisplayed).toBeTruthy();
+  }
+
+  async verifyProductItemReadyToAddToCart(itemName: string): Promise<void> {
+    const productItemLocator = this.productPage.getProductItemByName(itemName);
+    const isDisplayed = await productItemLocator.getByRole('button', { name: 'Add to cart' }).isVisible();
     expect(isDisplayed).toBeTruthy();
   }
 }
