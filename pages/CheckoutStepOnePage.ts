@@ -1,5 +1,5 @@
 import BasePage from "./BasePage";
-import { Page, expect } from "@playwright/test";
+import { Page } from "@playwright/test";
 
 export default class CheckoutStepOnePage extends BasePage {
   constructor(page: Page) {
@@ -32,6 +32,11 @@ export default class CheckoutStepOnePage extends BasePage {
 
   get errorMessages() {
     return this.page.locator('[data-test="error"]');
+  }
+
+  // Expose the page instance for use in steps
+  get pageInstance() {
+    return this.page;
   }
 
 }

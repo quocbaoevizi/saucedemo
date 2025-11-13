@@ -39,4 +39,21 @@ export class CheckoutSteps {
     await expect(this.checkoutStepOnePage.continueButton).toBeVisible();
   }
 
+  async verifyFirstNameRequiredError(): Promise<void> {
+    const errorMessage = this.checkoutStepOnePage.pageInstance.locator('h3[data-test="error"]');
+    await expect(errorMessage).toBeVisible();
+    await expect(errorMessage).toHaveText('Error: First Name is required');
+  }
+
+  async verifyLastNameRequiredError(): Promise<void> {
+    const errorMessage = this.checkoutStepOnePage.pageInstance.locator('h3[data-test="error"]');
+    await expect(errorMessage).toBeVisible();
+    await expect(errorMessage).toHaveText('Error: Last Name is required');
+  }
+
+  async verifyZipCodeRequiredError(): Promise<void> {
+    const errorMessage = this.checkoutStepOnePage.pageInstance.locator('h3[data-test="error"]');
+    await expect(errorMessage).toBeVisible();
+    await expect(errorMessage).toHaveText('Error: Postal Code is required');
+  }
 }

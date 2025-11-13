@@ -3,7 +3,7 @@ import { ProductSteps } from "../steps/product-steps";
 import { CheckoutSteps } from "../steps/checkout-steps";
 import { AuthSteps } from "../steps/auth-steps";
 import LoginPage from "../pages/LoginPage";
-import { test, Page } from "@playwright/test";
+import { test, Page, expect } from "@playwright/test";
 
 test.describe('Checkout Page Tests', () => {
   let authSteps: AuthSteps;
@@ -48,6 +48,36 @@ test.describe('Checkout Page Tests', () => {
 
     await test.step('Verify checkout page is displayed', async () => {
       await checkoutSteps.verifyPageIsDisplayed();
+    });
+  });
+
+  test('@C12 Verify error messages when submitting empty checkout information', {
+    tag: ['@C12', '@Checkout', '@Validation']
+  }, async () => {
+
+    await test.step('Navigate to checkout step one page', async () => {
+      const itemIndexes = [1];
+      await productSteps.addProductsToCart(itemIndexes);
+      await productSteps.navigateToCart();
+      await cartSteps.clickCheckoutButton();
+      await checkoutSteps.verifyPageIsDisplayed();
+    });
+
+    await test.step('Submit form with empty First Name', async () => {
+      await checkoutSteps.clickContinueButton();
+      await checkoutSteps.verifyFirstNameRequiredError();
+    });
+
+    await test.step('Submit form with empty Last Name', async () => {
+      await checkoutSteps.enterFirstName('Test');
+      await checkoutSteps.clickContinueButton();
+      await checkoutSteps.verifyLastNameRequiredError();
+    });
+
+    await test.step('Submit form with empty Zip/Postal Code', async () => {
+      await checkoutSteps.enterLastName('User');
+      await checkoutSteps.clickContinueButton();
+      await checkoutSteps.verifyZipCodeRequiredError();
     });
   });
 })
