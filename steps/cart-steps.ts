@@ -29,4 +29,9 @@ export class CartSteps extends BasePage {
     await this.cartPage.removeButton.nth(index).click();
     return productName;
   }
+
+  async verifyItemNotInCart(itemName: string): Promise<void> {
+    const cartItems = await this.cartPage.getCartItemNames();
+    expect(cartItems).not.toContain(itemName);
+  }
 }

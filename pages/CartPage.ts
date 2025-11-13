@@ -23,4 +23,18 @@ export default class CartPage extends BasePage {
     return this.page.locator(`[data-test="item-${index}-title-link"]`);
   }
 
+  async getCartItemNames(): Promise<string[]> {
+    const itemTitles = this.page.locator('[data-test^="inventory-item-name"]');
+    const count = await itemTitles.count();
+    const itemNames: string[] = [];
+    
+    for (let i = 0; i < count; i++) {
+      const name = await itemTitles.nth(i).textContent();
+      if (name) {
+        itemNames.push(name);
+      }
+    }
+    
+    return itemNames;
+  }
 }
