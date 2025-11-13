@@ -1,11 +1,14 @@
 import { expect, Page } from "@playwright/test";
 import CheckoutStepOnePage from "../pages/CheckoutStepOnePage";
+import CheckoutStepTwoPage from "../pages/CheckoutStepTwoPage";
 
 export class CheckoutSteps {
   private checkoutStepOnePage: CheckoutStepOnePage;
+  private checkoutStepTwoPage: CheckoutStepTwoPage;
 
   constructor(page: Page) {
     this.checkoutStepOnePage = new CheckoutStepOnePage(page);
+    this.checkoutStepTwoPage = new CheckoutStepTwoPage(page);
   }
 
   // Actions
@@ -55,5 +58,10 @@ export class CheckoutSteps {
     const errorMessage = this.checkoutStepOnePage.pageInstance.locator('h3[data-test="error"]');
     await expect(errorMessage).toBeVisible();
     await expect(errorMessage).toHaveText('Error: Postal Code is required');
+  }
+
+  async verifyStepTwoPageIsDisplayed(): Promise<void> {
+    await expect(this.checkoutStepTwoPage.title).toBeVisible();
+    await expect(this.checkoutStepTwoPage.title).toHaveText('Checkout: Overview');
   }
 }

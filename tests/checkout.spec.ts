@@ -100,4 +100,27 @@ test.describe('Checkout Page Tests', () => {
       await cartSteps.verifyCartPageIsDisplayed();
     });
   });
+
+  test('@C15 Verify user can complete checkout with all required information', {
+    tag: ['@C15', '@Checkout', '@E2E']
+  }, async () => {
+    await test.step('Navigate to checkout step one page', async () => {
+      const itemIndexes = [1];
+      await productSteps.addProductsToCart(itemIndexes);
+      await productSteps.navigateToCart();
+      await cartSteps.clickCheckoutButton();
+      await checkoutSteps.verifyPageIsDisplayed();
+    });
+
+    await test.step('Fill in all required checkout information', async () => {
+      await checkoutSteps.enterFirstName('Test');
+      await checkoutSteps.enterLastName('User');
+      await checkoutSteps.enterZipCode('12345');
+      await checkoutSteps.clickContinueButton();
+    });
+
+    await test.step('Verify checkout overview page is displayed', async () => {
+      await checkoutSteps.verifyStepTwoPageIsDisplayed();
+    });
+  });
 });
