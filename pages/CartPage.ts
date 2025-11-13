@@ -19,6 +19,10 @@ export default class CartPage extends BasePage {
     return this.page.getByRole('button', { name: 'Remove' });
   }
 
+  get continueShoppingButton() {
+    return this.page.getByRole('button', { name: 'Continue Shopping' });
+  }
+
   getProductItemTitle(index: number) {
     return this.page.locator(`[data-test="item-${index}-title-link"]`);
   }
@@ -27,14 +31,14 @@ export default class CartPage extends BasePage {
     const itemTitles = this.page.locator('[data-test^="inventory-item-name"]');
     const count = await itemTitles.count();
     const itemNames: string[] = [];
-    
+
     for (let i = 0; i < count; i++) {
       const name = await itemTitles.nth(i).textContent();
       if (name) {
         itemNames.push(name);
       }
     }
-    
+
     return itemNames;
   }
 }

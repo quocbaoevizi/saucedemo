@@ -81,4 +81,20 @@ test.describe('Cart Page Tests', () => {
       await cartSteps.verifyCartItemCount(itemIndexes.length);
     });
   });
+
+  test(`@C10 Verify that user can back to Products by clicking the "Continue Shopping" button`, {
+    tag: ['@C10', '@Cart']
+  }, async () => {
+    await test.step('Navigate to cart', async () => {
+      await productSteps.navigateToCart();
+    });
+
+    await test.step('Click "Continue Shopping" button', async () => {
+      await cartSteps.clickContinueShoppingButton();
+    });
+
+    await test.step('Verify product page is displayed', async () => {
+      await productSteps.verifyProductPageIsDisplayed();
+    });
+  });
 });
