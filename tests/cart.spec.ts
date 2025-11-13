@@ -58,4 +58,27 @@ test.describe('Cart Page Tests', () => {
       }
     });
   });
+
+  test('@C09 Verify that the user can view cart page', {
+    tag: ['@C09', '@Cart']
+  }, async () => {
+    const itemIndexes = [1, 2, 3]; // Add 3 items to the cart
+    let itemNames: string[] = [];
+
+    await test.step('Add multiple products to cart', async () => {
+      itemNames = await productSteps.addProductsToCart(itemIndexes);
+    });
+
+    await test.step('Navigate to cart', async () => {
+      await productSteps.navigateToCart();
+    });
+
+    await test.step('Verify cart badge shows correct count', async () => {
+      await productSteps.verifyCartBadgeCount(itemIndexes.length);
+    });
+
+    await test.step('Verify cart contains all added items', async () => {
+      await cartSteps.verifyCartItemCount(itemIndexes.length);
+    });
+  });
 });
