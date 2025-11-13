@@ -21,7 +21,9 @@ test.describe('Product Page Tests', () => {
     await productSteps.verifyProductPageIsDisplayed();
   });
 
-  test('@C04 Verify that the user can add multiple products to cart', async () => {
+  test('@C04 Verify that the user can add multiple products to cart', {
+    tag: ['@C04', '@Products']
+  }, async () => {
     let itemIndexes: number[] = [1, 2];
     let itemNames: string[] = [];
     await test.step('Add products to cart', async () => {
@@ -42,7 +44,9 @@ test.describe('Product Page Tests', () => {
     });
   });
 
-  test('@C05 Verify that the user can remove a product from cart', async () => {
+  test('@C05 Verify that the user can remove a product from cart', {
+    tag: ['@C05', '@Products']
+  }, async () => {
     let itemIndexes: number[] = [1, 2];
     let itemNames: string[] = [];
     let itemNameRemoved: string | null = null;
@@ -81,7 +85,9 @@ test.describe('Product Page Tests', () => {
     })
   });
 
-  test('@C06 Verify that the user can view product details by clicking on the product item', async () => {
+  test('@C06 Verify that the user can view product details by clicking on the product item', {
+    tag: ['@C06', '@Products']
+  }, async () => {
     const productIndex = 4; // Index of the product to test
     let productName: string | null = null;
 
@@ -101,4 +107,17 @@ test.describe('Product Page Tests', () => {
       }
     });
   });
+
+  test('@C07 Verify that the user can sort products by Price (Low to High)', {
+    tag: ['@C07', '@Products']
+  }, async () => {
+    await test.step('Sort products by price (low to high)', async () => {
+      await productSteps.sortByPriceLowToHigh();
+    });
+
+    await test.step('Verify products are sorted by price in ascending order', async () => {
+      await productSteps.verifyProductsSortedByPriceLowToHigh();
+    });
+  });
+
 });

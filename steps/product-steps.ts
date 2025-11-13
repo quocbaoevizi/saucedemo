@@ -25,6 +25,28 @@ export class ProductSteps {
     await this.productPage.logoutLink.click();
   }
 
+  async sortByPriceLowToHigh(): Promise<void> {
+    await this.productPage.sortDropdown.selectOption('lohi');
+  }
+
+  async verifyProductsSortedByPriceLowToHigh(): Promise<void> {
+    const priceElements = this.productPage.pageInstance.locator('[data-test="inventory-item-price"]');
+    const count = await priceElements.count();
+    
+    for (let i = 0; i < count - 1; i++) {
+      const currentPriceText = await priceElements.nth(i).textContent();
+      const nextPriceText = await priceElements.nth(i + 1).textContent();
+      
+      if (currentPriceText && nextPriceText) {
+        const currentPrice = parseFloat(currentPriceText.replace('$', ''));
+        const nextPrice = parseFloat(nextPriceText.replace('$', ''));
+        expect(currentPrice).toBeLessThanOrEqual(nextPrice);
+      } else {
+        throw new Error('Could not get price text for comparison');
+      }
+    }
+  }
+
   async addProductsToCart(indexes: number[]): Promise<string[]> {
     const itemNames: string[] = [];
 

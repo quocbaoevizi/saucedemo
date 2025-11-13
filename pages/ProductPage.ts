@@ -6,6 +6,10 @@ export default class ProductPage extends BasePage {
         super(page);
     }
 
+    get pageInstance(): Page {
+        return this.page;
+    }
+
     // Locators
     get cartLink(): Locator {
         return this.page.locator('[data-test="shopping-cart-link"]');
@@ -13,6 +17,10 @@ export default class ProductPage extends BasePage {
 
     get cartBadge(): Locator {
         return this.page.locator('[data-test="shopping-cart-badge"]');
+    }
+
+    get sortDropdown(): Locator {
+        return this.page.locator('[data-test="product-sort-container"]');
     }
 
     get menuButton(): Locator {
