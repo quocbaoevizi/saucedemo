@@ -17,18 +17,23 @@ test.describe('Product Page Tests', () => {
   });
 
   test('@C04 Verify that the user can add multiple products to cart', async () => {
-    // Add products to cart and get their names
-    const itemIndexes = [1, 2]; // Indexes of products to add
-    const itemNames = await productSteps.addProductsToCart(itemIndexes);
+    let itemIndexes: number[] = [1, 2];
+    let itemNames: string[] = [];
+    await test.step('Add products to cart', async () => {
+      itemNames = await productSteps.addProductsToCart(itemIndexes);
+    });
 
-    // Verify cart badge shows correct count
-    await productSteps.verifyCartBadgeCount(itemIndexes.length);
+    await test.step('Verify cart badge shows correct count', async () => {
+      await productSteps.verifyCartBadgeCount(itemIndexes.length);
+    });
 
-    // Navigate to cart
-    await productSteps.navigateToCart();
+    await test.step('Navigate to cart', async () => {
+      await productSteps.navigateToCart();
+    });
 
-    // Verify cart contents
-    await productSteps.verifyCartItemCount(itemIndexes.length);
-    await productSteps.verifyCartContainsItems(itemNames);
+    await test.step('Verify cart contents', async () => {
+      await productSteps.verifyCartItemCount(itemIndexes.length);
+      await productSteps.verifyCartContainsItems(itemNames);
+    });
   });
 });
