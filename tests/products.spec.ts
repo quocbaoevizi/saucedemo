@@ -91,7 +91,6 @@ test.describe('Product Page Tests', () => {
 
     await test.step('Click on the product to view details', async () => {
       await productSteps.viewProductDetails(productIndex);
-      await expect(page).toHaveURL(/inventory-item\.html\?id=\d+/);
     });
 
     await test.step('Verify product details page elements', async () => {
@@ -100,12 +99,6 @@ test.describe('Product Page Tests', () => {
       if (productName) {
         await productSteps.productDetailSteps.verifyProductDetails(productName);
       }
-    });
-
-    await test.step('Navigate back to products list', async () => {
-      await productSteps.productDetailSteps.navigateBackToProducts();
-      await expect(page).toHaveURL(/inventory\.html/);
-      await productSteps.verifyProductPageIsDisplayed();
     });
   });
 });

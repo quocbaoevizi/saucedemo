@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 import BasePage from './BasePage';
 
 export default class ProductDetailPage extends BasePage {
@@ -39,5 +39,14 @@ export default class ProductDetailPage extends BasePage {
     // Verifications
     async isPageDisplayed(): Promise<boolean> {
         return await this.backToProductsButton.isVisible();
+    }
+
+    async toHaveURL(pattern: string | RegExp) {
+        const currentUrl = this.page.url();
+        if (pattern instanceof RegExp) {
+            expect(currentUrl).toMatch(pattern);
+        } else {
+            expect(currentUrl).toContain(pattern);
+        }
     }
 }

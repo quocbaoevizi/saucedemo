@@ -2,9 +2,13 @@ import { expect } from '@playwright/test';
 import ProductDetailPage from '../pages/ProductDetailPage';
 
 export class ProductDetailSteps {
-  constructor(private productDetailPage: ProductDetailPage) {}
+  private productDetailPage: ProductDetailPage;
+  constructor(productDetailPage: ProductDetailPage) {
+    this.productDetailPage = productDetailPage;
+  }
 
   async verifyPageIsDisplayed(): Promise<void> {
+    await this.productDetailPage.toHaveURL(/inventory-item\.html\?id=\d+$/);
     await expect(this.productDetailPage.backToProductsButton).toBeVisible();
     await expect(this.productDetailPage.productName).toBeVisible();
     await expect(this.productDetailPage.productDescription).toBeVisible();
