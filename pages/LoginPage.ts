@@ -3,14 +3,24 @@ import BasePage from './BasePage';
 import { config } from '../utils/config';
 
 export default class LoginPage extends BasePage {
-    // Locators
-    private readonly usernameInput = '[data-test="username"]';
-    private readonly passwordInput = '[data-test="password"]';
-    private readonly loginButton = '[data-test="login-button"]';
-    private readonly errorMessage = '[data-test="error"]';
-
     constructor(page: Page) {
         super(page);
+    }
+
+    get usernameInput() {
+        return this.page.locator('[data-test="username"]');
+    }
+
+    get passwordInput() {
+        return this.page.locator('[data-test="password"]');
+    }
+
+    get loginButton() {
+        return this.page.locator('[data-test="login-button"]');
+    }
+
+    get errorMessage() {
+        return this.page.locator('[data-test="error"]');
     }
 
     // Actions
